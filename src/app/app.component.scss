@@ -1,0 +1,44 @@
+div.game-space {
+    height:480px;
+    width:640px;
+    background-color:#111;
+
+    div.game-array {
+        min-height:480px;
+        max-height:480px;
+        min-width:480px;
+        max-width:480px;
+        display:inline-block;
+
+        div.row {
+            margin:0;
+            padding:0;
+            min-height:48px;
+            max-height:48px;
+            min-width:480px;
+            max-width:480px;
+            display:block;
+
+            div.space {
+                background-color:#000;
+                margin:0;
+                padding:0;
+                border:0;
+                max-height:48px;
+                max-width:48px;
+                min-width:48px;
+                min-height:48px;
+                display:inline-block;
+            }
+        }
+    }
+
+    div.game-info {
+        min-height:480px;
+        max-height:480px;
+        min-width:160px;
+        max-width:160px;
+        background-color:#333;
+        display:inline-block;
+    }
+}
