@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { PieceType } from '../enums';
 import { Point } from '../models';
 
@@ -7,9 +8,10 @@ import { Point } from '../models';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private readonly gridSize: number = 10;
   private readonly initialCount: number = 2;
+  private readonly document: any;
 
   public title = 'dot-life';
   public gameGrid: PieceType[][];
@@ -21,10 +23,73 @@ export class AppComponent {
   public purpleCount: number = 0;
 
 
-  constructor() {
+  constructor(@Inject(DOCUMENT) document) {
+    this.document = document;
     this.initialzeGrid();
     this.randomizeStartingPositions();
   }
+
+  public ngOnInit(): void {
+    this.updateDotClasses();
+  }
+
+  public onSpaceClick(spaceNumber: number): void {
+    const pieceType = this.getPieceTypeFromPieceNumber(spaceNumber);
+    const className = this.getClassNameFromPieceType(PieceType.None);
+
+    const element = this.getPieceElement(spaceNumber);
+    element.className = className;
+  }
+
+  private updateDotClasses(): void {
+    for (let i = 0; i < this.gameGrid.length; i++) {
+      for (let j = 0; j < this.gameGrid[i].length; j++) {
+        const pieceType: PieceType = this.gameGrid[i][j];
+        const className = this.getClassNameFromPieceType(pieceType);
+
+        const pieceNumber: number = (i + (j * 10));
+
+        const element = this.getPieceElement(pieceNumber);
+        element.className = className;
+      }
+    }
+  }
+
+  private getClassNameFromPieceType(pieceType: PieceType): string {
+    let className: string = 'space';
+
+    switch (pieceType) {
+      case PieceType.Red:
+        className += ' red-space';
+        break;
+      case PieceType.Green:
+        className += ' green-space';
+        break;
+      case PieceType.Blue:
+        className += ' blue-space';
+        break;
+      case PieceType.Yellow:
+        className += ' yellow-space';
+        break;
+      case PieceType.Purple:
+        className += ' purple-space';
+        break;
+    }
+
+    return className;
+  }
+
+  // private getPieceTypeFromPieceNumber(pieceNumber): PieceType {
+
+  // }
+
+  private getPieceElement(pieceNumber): any {
+    const spaceId: string = `space-${pieceNumber}`;
+
+    const element = this.document.getElementById(spaceId);
+    return element;
+  }
+
 
   private initialzeGrid(): void {
     this.gameGrid = [];

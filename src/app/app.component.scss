@@ -19,16 +19,47 @@ div.game-space {
             max-width:480px;
             display:block;
 
-            div.space {
+            div.space-container {
                 background-color:#000;
                 margin:0;
                 padding:0;
-                border:0;
                 max-height:48px;
                 max-width:48px;
                 min-width:48px;
                 min-height:48px;
                 display:inline-block;
+                border-bottom: 1px solid #333;
+                border-right: 1px solid #333;
+                box-sizing: border-box;
+
+                div.space {
+                    margin:4px auto 4px auto;
+                    max-height:40px;
+                    max-width:40px;
+                    min-width:40px;
+                    min-height:40px;
+                    border-radius:50%;
+                    
+                    &.red-space {
+                        background-color:red;
+                    }
+
+                    &.green-space {
+                        background-color:green;
+                    }
+
+                    &.blue-space {
+                        background-color:blue;
+                    }
+
+                    &.yellow-space {
+                        background-color:yellow;
+                    }
+
+                    &.purple-space {
+                        background-color:purple;
+                    }
+                }
             }
         }
     }
