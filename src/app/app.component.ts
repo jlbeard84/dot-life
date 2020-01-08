@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { PieceType } from '../enums';
+import { PieceType, DirectionType } from '../enums';
 import { Point } from '../models';
 
 @Component({
@@ -15,13 +15,14 @@ export class AppComponent implements OnInit {
 
   public title = 'dot-life';
   public gameGrid: PieceType[][];
+  public direction: DirectionType = DirectionType.LeftRight;
+  public currentPlayerPieceType: PieceType = PieceType.Red;
 
   public redCount: number = 0;
   public greenCount: number = 0;
   public blueCount: number = 0;
   public yellowCount: number = 0;
   public purpleCount: number = 0;
-
 
   constructor(@Inject(DOCUMENT) document) {
     this.document = document;
@@ -30,24 +31,72 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.updateDotClasses();
+    this.initializeDotClasses();
   }
 
-  public onSpaceClick(spaceNumber: number): void {
-    const pieceType = this.getPieceTypeFromPieceNumber(spaceNumber);
-    const className = this.getClassNameFromPieceType(PieceType.None);
+  public onSpaceClick(
+    rowNumber: number,
+    colNumber: number,
+    spaceNumber: number): void {
+
+    const clickedPieceNumber = this.gameGrid[rowNumber][colNumber];
+
+    if (clickedPieceNumber !== this.currentPlayerPieceType) {
+      return;
+    }
+
+    this.updatePiece(rowNumber, colNumber, spaceNumber, PieceType.None);
+
+    const spaceNumbersToUpdate: Point[] = [];
+
+    if (this.direction === DirectionType.LeftRight) {
+      if (colNumber !== 9) {
+        spaceNumbersToUpdate.push(new Point(rowNumber, colNumber + 1, spaceNumber + 1));
+      }
+
+      if (colNumber !== 0) {
+        spaceNumbersToUpdate.push(new Point(rowNumber, colNumber - 1, spaceNumber - 1));
+      }
+    } else if (this.direction === DirectionType.UpDown) {
+      if (rowNumber !== 9) {
+        spaceNumbersToUpdate.push(new Point(rowNumber + 1, colNumber, spaceNumber + 10));
+      }
+
+      if (rowNumber !== 0) {
+        spaceNumbersToUpdate.push(new Point(rowNumber - 1, colNumber, spaceNumber - 10));
+      }
+    }
+
+    spaceNumbersToUpdate.forEach((point) => {
+      this.updatePiece(
+        point.X,
+        point.Y,
+        point.Space,
+        this.currentPlayerPieceType);
+    });
+  }
+
+  private updatePiece(
+    rowNumber: number,
+    colNumber: number,
+    spaceNumber: number, 
+    pieceType: PieceType): void {
+
+    const className = this.getClassNameFromPieceType(pieceType);
 
     const element = this.getPieceElement(spaceNumber);
     element.className = className;
+
+    this.gameGrid[rowNumber][colNumber] = pieceType;
   }
 
-  private updateDotClasses(): void {
+  private initializeDotClasses(): void {
     for (let i = 0; i < this.gameGrid.length; i++) {
       for (let j = 0; j < this.gameGrid[i].length; j++) {
         const pieceType: PieceType = this.gameGrid[i][j];
         const className = this.getClassNameFromPieceType(pieceType);
 
-        const pieceNumber: number = (i + (j * 10));
+        const pieceNumber: number = (i * 10) + j;
 
         const element = this.getPieceElement(pieceNumber);
         element.className = className;
@@ -79,17 +128,12 @@ export class AppComponent implements OnInit {
     return className;
   }
 
-  // private getPieceTypeFromPieceNumber(pieceNumber): PieceType {
-
-  // }
-
   private getPieceElement(pieceNumber): any {
     const spaceId: string = `space-${pieceNumber}`;
 
     const element = this.document.getElementById(spaceId);
     return element;
   }
-
 
   private initialzeGrid(): void {
     this.gameGrid = [];
