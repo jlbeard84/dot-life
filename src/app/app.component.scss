@@ -40,6 +40,7 @@ div.game-space {
                     min-width:40px;
                     min-height:40px;
                     border-radius:50%;
+                    cursor: pointer;
                     
                     &.red-space {
                         background-color:red;
@@ -71,7 +72,8 @@ div.game-space {
         min-width:160px;
         max-width:160px;
         background-color:#333;
-        display:inline-block;
+        display:flex;
+        flex-direction: column;
 
         div.counts {
             div.player-count {
@@ -120,6 +122,27 @@ div.game-space {
                     display:inline-block;
                     vertical-align: middle;;
                 }
+            }
+        }
+
+        div.control {
+            margin-top:.5em;
+            margin-bottom:.5em;
+            text-align: center;
+
+            button {
+                cursor:pointer;
+                min-width:80%;
+                max-width:80%;
+                width:80%;
+                height:2em;
+                border:1px solid #fff;
+                background-color: #000;
+                border-radius: 5px;
+                color:#fff;
+                font-size:26px;
+                font-weight:bolder;
+                word-spacing:1.5em;
             }
         }
     }

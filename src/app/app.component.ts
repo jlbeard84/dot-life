@@ -79,6 +79,18 @@ export class AppComponent implements OnInit {
     this.updateCounts();
   }
 
+  public flipDirection(): void {
+    this.direction = this.direction === DirectionType.LeftRight
+      ? DirectionType.UpDown
+      : DirectionType.LeftRight;
+  }
+
+  public getButtonContent(): string {
+    return this.direction === DirectionType.LeftRight
+    ? '← →'
+    : '↑ ↓';
+  }
+
   private updatePiece(
     rowNumber: number,
     colNumber: number,
