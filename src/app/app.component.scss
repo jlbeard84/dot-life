@@ -2,6 +2,7 @@ div.game-space {
     height:480px;
     width:640px;
     background-color:#111;
+    display:flex;
 
     div.game-array {
         min-height:480px;
@@ -71,5 +72,55 @@ div.game-space {
         max-width:160px;
         background-color:#333;
         display:inline-block;
+
+        div.counts {
+            div.player-count {
+                width:100%;
+                border-bottom:1px solid #000;
+                padding-top:.5em;
+                padding-bottom:.5em;
+
+                div {
+                    margin-left:2em;
+                    margin-right:2em;
+                    max-height:30px;
+                    max-width:30px;
+                    min-height:30px;
+                    min-width:30px;
+                    border-radius: 50%;
+                    display:inline-block;
+                    vertical-align: middle;
+
+                    &.red {
+                        background-color:red;
+                    }
+
+                    &.green {
+                        background-color:green;
+                    }
+
+                    &.blue {
+                        background-color:blue;
+                    }
+
+                    &.yellow {
+                        background-color:yellow;
+                    }
+
+                    &.purple {
+                        background-color:purple;
+                    }
+                }
+
+                span {
+                    color: #fff;
+                    font-size:18px;
+                    font-weight:bold;
+                    font-family: sans-serif;
+                    display:inline-block;
+                    vertical-align: middle;;
+                }
+            }
+        }
     }
 }

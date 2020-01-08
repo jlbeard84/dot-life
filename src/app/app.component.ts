@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initializeDotClasses();
+    this.updateCounts();
   }
 
   public onSpaceClick(
@@ -74,6 +75,8 @@ export class AppComponent implements OnInit {
         point.Space,
         this.currentPlayerPieceType);
     });
+
+    this.updateCounts();
   }
 
   private updatePiece(
@@ -177,5 +180,38 @@ export class AppComponent implements OnInit {
     point.Y = Math.floor((Math.random() * 10));
 
     return point;
+  }
+
+  private updateCounts(): void {
+
+    this.redCount = 0;
+    this.greenCount = 0;
+    this.blueCount = 0;
+    this.yellowCount = 0;
+    this.purpleCount = 0;
+
+    for (let i = 0; i < this.gridSize; i++) {
+      for (let j = 0; j < this.gridSize; j++) {
+        const pieceType = this.gameGrid[i][j];
+
+        switch (pieceType) {
+          case PieceType.Red:
+            this.redCount++;
+            break;
+          case PieceType.Green:
+            this.greenCount++;
+            break;
+          case PieceType.Blue:
+            this.blueCount++;
+            break;
+          case PieceType.Yellow:
+            this.yellowCount++;
+            break;
+          case PieceType.Purple:
+            this.purpleCount++;
+            break;
+        }
+      }
+    }
   }
 }
