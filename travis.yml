@@ -1,0 +1,26 @@
+dist: trusty
+sudo: false
+
+branches:
+  except:
+    - gh-pages
+
+language: node_js
+node_js:
+  - "8.9.4"
+
+before_script:
+  - npm install -g @angular/cli@8.3.21
+  - npm install
+
+script: 
+  - npm run build-prod
+
+deploy:
+    skip_cleanup: true
+    provider: pages
+    github_token: $GITHUB_TOKEN
+    fqdn: dotlife.jlbeard.com
+    local_dir: dist/dot-life/
+    on:
+        branch: master

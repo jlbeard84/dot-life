@@ -132,7 +132,7 @@ export class AppComponent implements OnInit {
         break;
     }
 
-    if (newX >= 0 && newX<= 9 && newY >= 0 && newY <= 9) {
+    if (newX >= 0 && newX <= 9 && newY >= 0 && newY <= 9) {
       const newPoint = new Point(newX, newY, newSpace);
       pointsToPop.push(...this.popInDirection(newPoint, popDirection, numberPopped + 1));
     }
@@ -155,7 +155,7 @@ export class AppComponent implements OnInit {
   private updatePiece(
     rowNumber: number,
     colNumber: number,
-    spaceNumber: number, 
+    spaceNumber: number,
     pieceType: PieceType): void {
 
     const className = this.getClassNameFromPieceType(pieceType);
