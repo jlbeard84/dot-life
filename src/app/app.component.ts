@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { PieceType, DirectionType } from '../enums';
+import { PieceType, DirectionType, PopDirectionType } from '../enums';
 import { Point } from '../models';
 
 @Component({
@@ -53,19 +53,31 @@ export class AppComponent implements OnInit {
 
     if (this.direction === DirectionType.LeftRight) {
       if (colNumber !== 9) {
-        spaceNumbersToUpdate.push(new Point(rowNumber, colNumber + 1, spaceNumber + 1));
+        const rightPoint = new Point(rowNumber, colNumber + 1, spaceNumber + 1);
+        spaceNumbersToUpdate.push(rightPoint);
+
+        spaceNumbersToUpdate.push(...this.popInDirection(rightPoint, PopDirectionType.Right, 0));
       }
 
       if (colNumber !== 0) {
-        spaceNumbersToUpdate.push(new Point(rowNumber, colNumber - 1, spaceNumber - 1));
+        const leftPoint = new Point(rowNumber, colNumber - 1, spaceNumber - 1);
+        spaceNumbersToUpdate.push(leftPoint);
+
+        spaceNumbersToUpdate.push(...this.popInDirection(leftPoint, PopDirectionType.Left, 0));
       }
     } else if (this.direction === DirectionType.UpDown) {
       if (rowNumber !== 9) {
-        spaceNumbersToUpdate.push(new Point(rowNumber + 1, colNumber, spaceNumber + 10));
+        const downPoint = new Point(rowNumber + 1, colNumber, spaceNumber + 10);
+        spaceNumbersToUpdate.push(downPoint);
+
+        spaceNumbersToUpdate.push(...this.popInDirection(downPoint, PopDirectionType.Down, 0));
       }
 
       if (rowNumber !== 0) {
-        spaceNumbersToUpdate.push(new Point(rowNumber - 1, colNumber, spaceNumber - 10));
+        const upPoint = new Point(rowNumber - 1, colNumber, spaceNumber - 10);
+        spaceNumbersToUpdate.push(upPoint);
+
+        spaceNumbersToUpdate.push(...this.popInDirection(upPoint, PopDirectionType.Up, 0));
       }
     }
 
@@ -78,6 +90,54 @@ export class AppComponent implements OnInit {
     });
 
     this.updateCounts();
+  }
+
+  public popInDirection(popPoint: Point, popDirection: PopDirectionType, numberPopped): Point[] {
+    const pointsToPop: Point[] = [];
+
+    const pieceAtPoint = this.gameGrid[popPoint.X][popPoint.Y];
+
+    if (pieceAtPoint === PieceType.None) {
+      return pointsToPop;
+    }
+
+    if (numberPopped > 0) {
+      pointsToPop.push(popPoint);
+    }
+
+    let newX: number;
+    let newY: number;
+    let newSpace: number;
+
+    switch (popDirection) {
+      case PopDirectionType.Left:
+        newX = popPoint.X;
+        newY = popPoint.Y - 1;
+        newSpace = popPoint.Space - 1;
+        break;
+      case PopDirectionType.Right:
+        newX = popPoint.X;
+        newY = popPoint.Y + 1;
+        newSpace = popPoint.Space + 1;
+        break;
+      case PopDirectionType.Up:
+        newX = popPoint.X + 1;
+        newY = popPoint.Y;
+        newSpace = popPoint.Space + 10;
+        break;
+      case PopDirectionType.Down:
+        newX = popPoint.X - 1;
+        newY = popPoint.Y;
+        newSpace = popPoint.Space - 10;
+        break;
+    }
+
+    if (newX >= 0 && newX<= 9 && newY >= 0 && newY <= 9) {
+      const newPoint = new Point(newX, newY, newSpace);
+      pointsToPop.push(...this.popInDirection(newPoint, popDirection, numberPopped + 1));
+    }
+
+    return pointsToPop;
   }
 
   public flipDirection(): void {
