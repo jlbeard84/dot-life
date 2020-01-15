@@ -323,19 +323,19 @@
   </div>
   <div class="game-info">
     <div class="counts">
-      <div class="player-count">
+      <div class="player-count" [ngClass]="{'highlighted-player': currentPlayerPieceType == pieceTypes.Red}">
         <div class="red"></div><span>{{redCount}}</span>
       </div>
-      <div class="player-count">
+      <div class="player-count" [ngClass]="{'highlighted-player': currentPlayerPieceType == pieceTypes.Green}">
         <div class="green"></div><span>{{greenCount}}</span>
       </div>
-      <div class="player-count">
+      <div class="player-count" [ngClass]="{'highlighted-player': currentPlayerPieceType == pieceTypes.Blue}">
         <div class="blue"></div><span>{{blueCount}}</span>
       </div>
-      <div class="player-count">
+      <div class="player-count" [ngClass]="{'highlighted-player': currentPlayerPieceType == pieceTypes.Yellow}">
         <div class="yellow"></div><span>{{yellowCount}}</span>
       </div>
-      <div class="player-count">
+      <div class="player-count" [ngClass]="{'highlighted-player': currentPlayerPieceType == pieceTypes.Purple}">
         <div class="purple"></div><span>{{purpleCount}}</span>
       </div>
     </div>

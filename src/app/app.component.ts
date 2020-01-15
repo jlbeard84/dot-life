@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   public gameGrid: PieceType[][];
   public direction: DirectionType = DirectionType.LeftRight;
   public currentPlayerPieceType: PieceType = PieceType.Red;
+  public pieceTypes: typeof PieceType = PieceType;
 
   public redCount: number = 0;
   public greenCount: number = 0;

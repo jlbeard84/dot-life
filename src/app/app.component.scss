@@ -82,6 +82,10 @@ div.game-space {
                 padding-top:.5em;
                 padding-bottom:.5em;
 
+                &.highlighted-player {
+                    background-color: #666;
+                }
+
                 div {
                     margin-left:2em;
                     margin-right:2em;
